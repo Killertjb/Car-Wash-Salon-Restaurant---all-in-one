@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Service Booking Demo</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f4f6f8; color: #333; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { text-align: center; margin-bottom: 8px; font-size: 24px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 24px; font-size: 14px; }
+        .nav-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+        .tab-btn { flex: 1; padding: 12px 8px; border: 1px solid #ddd; background: #f8f9fa; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .tab-btn.active { background: #007bff; color: #fff; border-color: #007bff; }
+        .service-form { display: none; }
+        .service-form.active { display: block; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        button.submit-btn { width: 100%; padding: 12px; background: #28a745; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        button.submit-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>All-In-One Hub</h1>
+    <p class="subtitle">Select a service below to make your booking</p>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="showForm('salon')">Hair Salon</button>
+        <button class="tab-btn" onclick="showForm('carwash')">Car Wash</button>
+        <button class="tab-btn" onclick="showForm('restaurant')">Restaurant</button>
+    </div>
+
+    <!-- Hair Salon Form -->
+    <form id="salon" class="service-form active" onsubmit="handleBooking(event, 'Hair Salon')">
+        <div class="form-group">
+            <label for="salon-service">Select Treatment</label>
+            <select id="salon-service" required>
+                <option value="">-- Choose Option --</option>
+                <option value="Haircut & Styling">Haircut & Styling</option>
+                <option value="Hair Coloring">Hair Coloring</option>
+                <option value="Wash & Blow-dry">Wash & Blow-dry</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="salon-date">Preferred Date & Time</label>
+            <input type="datetime-local" id="salon-date" required>
+        </div>
+        <div class="form-group">
+            <label for="salon-name">Full Name</label>
+            <input type="text" id="salon-name" placeholder="John Doe" required>
+        </div>
+        <button type="submit" class="submit-btn">Book Salon Appointment</button>
+    </form>
+
+    <!-- Car Wash Form -->
+    <form id="carwash" class="service-form" onsubmit="handleBooking(event, 'Car Wash')">
+        <div class="form-group">
+            <label for="car-type">Vehicle Type</label>
+            <select id="car-type" required>
+                <option value="">-- Select Vehicle --</option>
+                <option value="Sedan / Hatchback">Sedan / Hatchback</option>
+                <option value="SUV / Crossover">SUV / Crossover</option>
+                <option value="Bakkie / Truck">Bakkie / Truck</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="wash-package">Wash Package</label>
+            <select id="wash-package" required>
+                <option value="">-- Select Package --</option>
+                <option value="Express Wash & Go">Express Wash & Go</option>
+                <option value="Deluxe Wash & Vacuum">Deluxe Wash & Vacuum</option>
+                <option value="Full Valet & Polish">Full Valet & Polish</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="car-date">Preferred Time Slot</label>
+            <input type="datetime-local" id="car-date" required>
+        </div>
+        <button type="submit" class="submit-btn">Book Wash</button>
+    </form>
+
+    <!-- Restaurant Form -->
+    <form id="restaurant" class="service-form" onsubmit="handleBooking(event, 'Restaurant')">
+        <div class="form-group">
+            <label for="guests">Number of Guests</label>
+            <select id="guests" required>
+                <option value="1 Person">1 Person</option>
+                <option value="2 People">2 People</option>
+                <option value="4 People">4 People</option>
+                <option value="Large Group (6+)">Large Group (6+)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="table-area">Seating Preference</label>
+            <select id="table-area" required>
+                <option value="Main Dining Room">Main Dining Room</option>
+                <option value="Outdoor Terrace">Outdoor Terrace</option>
+                <option value="Bar Area">Bar Area</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="rest-date">Reservation Time</label>
+            <input type="datetime-local" id="rest-date" required>
+        </div>
+        <button type="submit" class="submit-btn">Reserve Table</button>
+    </form>
+</div>
+
+<script>
+    function showForm(formId) {
+        document.querySelectorAll('.service-form').forEach(form => form.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(formId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function handleBooking(event, serviceName) {
+        event.preventDefault();
+        alert('Demo Booking Submitted for ' + serviceName + '!');
+    }
+</script>
+
+</body>
+</html>
